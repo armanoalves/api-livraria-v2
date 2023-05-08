@@ -3,7 +3,7 @@ import livros from "./livrosRoutes.js";
 import autores from "./autoresRoutes.js";
 
 const router = (app) => {
-    app.route('/').get((req, res) => {
+    app.route("/").get((req, res) => {
         res.status(200).send({titulo: "Curso de Node"});
     });
 
@@ -11,7 +11,7 @@ const router = (app) => {
         express.json(),
         livros,
         autores
-    )
-}
+    );
+};
 
 export default router;

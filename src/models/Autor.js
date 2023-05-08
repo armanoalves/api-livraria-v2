@@ -9,7 +9,7 @@ const autorSchema = new mongoose.Schema(
     {
         versionKey: false
     }
-)
+);
 
 const autores = mongoose.model("autores", autorSchema);
 
