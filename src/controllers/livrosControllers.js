@@ -2,18 +2,18 @@ import livros from "../models/Livro.js";
 
 class LivroController {
 
-    static listarLivros = async (req, res) => {
+    static listarLivros = async (req, res, next) => {
         try {
             const livrosResultado = await livros.find()
                 .populate("autor")
                 .exec();
             res.status(200).json(livrosResultado);
         } catch (erro) {
-            res.status(500).json({messagem: `${erro.message} - Erro interno no servidor`});
+            next(erro);
         }
     };
 
-    static listarLivroPorId = async (req, res) => {
+    static listarLivroPorId = async (req, res, next) => {
         try {
             const id = req.params.id;
             
@@ -23,11 +23,11 @@ class LivroController {
 
             res.status(200).json(livrosResultado);
         } catch (erro) {
-            res.status(400).send({messagem: `${erro.message} - ID do livro não localizado`});
+            next(erro);
         }
     };
 
-    static cadastrarLivro = async (req, res) => {
+    static cadastrarLivro = async (req, res, next) => {
         try {
             let livro = new livros(req.body);
 
@@ -35,11 +35,11 @@ class LivroController {
 
             res.status(201).json(livrosResultado.toJSON());
         } catch (erro) {
-            res.status(500).send({messagem: `${erro.message} - Erro ao cadastrar livro`});
+            next(erro);
         }
     };
 
-    static atualizarLivro = async (req, res) => {
+    static atualizarLivro = async (req, res, next) => {
         try {
             const id = req.params.id;
 
@@ -47,11 +47,11 @@ class LivroController {
 
             res.status(200).json({messagem: "Livro atualizado com sucesso"});
         } catch (error) {
-            res.status(400).send({messagem: `${error.message} - ID de livro não encontrado`});
+            next(error);
         }
     };
 
-    static excluirLivro = async (req, res)  => {
+    static excluirLivro = async (req, res, next)  => {
         try {
             const id = req.params.id;
 
@@ -59,7 +59,7 @@ class LivroController {
 
             res.status(200).send({messagem: "Livro exclído com sucesso"});
         } catch (erro) {
-            res.status(500).send({messagem: `${erro.message} - Falha ao exluir livro`});
+            next(erro);
         }
     };
 
