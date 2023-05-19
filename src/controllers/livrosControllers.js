@@ -1,3 +1,4 @@
+import NaoEncontrado from "../erros/NaoEncontrado.js";
 import livros from "../models/Livro.js";
 
 class LivroController {
@@ -21,7 +22,11 @@ class LivroController {
                 .populate("autor", "nome")
                 .exec();
 
-            res.status(200).json(livrosResultado);
+            if(livrosResultado !== null) {
+                res.status(200).json(livrosResultado);
+            } else {
+                next(new NaoEncontrado("ID do livro não localizado"));
+            }
         } catch (erro) {
             next(erro);
         }
@@ -43,9 +48,13 @@ class LivroController {
         try {
             const id = req.params.id;
 
-            await livros.findByIdAndUpdate(id, {$set: req.body});
+            const livrosResultado = await livros.findByIdAndUpdate(id, {$set: req.body});
 
-            res.status(200).json({messagem: "Livro atualizado com sucesso"});
+            if(livrosResultado !== null) {
+                res.status(200).json({messagem: "Livro atualizado com sucesso"});
+            } else {
+                next(new NaoEncontrado("ID do livro não localizado"));
+            }
         } catch (error) {
             next(error);
         }
@@ -55,9 +64,14 @@ class LivroController {
         try {
             const id = req.params.id;
 
-            await livros.findByIdAndDelete(id);
+            const livrosResultado = await livros.findByIdAndDelete(id);
 
-            res.status(200).send({messagem: "Livro exclído com sucesso"});
+            if(livrosResultado !== null) {
+                res.status(200).send({messagem: "Livro exclído com sucesso"});
+            } else {
+                next(new NaoEncontrado("ID do livro não localizado"));
+            }
+
         } catch (erro) {
             next(erro);
         }
@@ -69,7 +83,10 @@ class LivroController {
 
             const livrosResultado = await livros.find({editora: editora});
 
-            res.status(200).json(livrosResultado);
+            if(livrosResultado !== null) {
+                res.status(200).json(livrosResultado);
+            } 
+
         } catch (error) {
             res.status(500).send({messagem: `${error.message} - Erro interno no serivor`});
         }

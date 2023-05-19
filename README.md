@@ -23,6 +23,24 @@ O presente projeto visa complementar outro já feito anteriormente, trazendo um 
 
   - Na rota de buscar um autor pelo seu ID, identificamos os casos em que: o dado foi fornecido de forma incorreta (código de status 400); o dado foi fornecido de forma correta, mas não havia nenhuma correspondência no banco de dados (código de status 404); e o caso de erro interno de servidor, que é retornado quando o erro não foi identificado como nenhum dos outros casos (código de status 500).
 
+### Aula 02
+
+- Criar e utilizar um middleware de manipulador de erros:
+
+  - Esse middleware é caracterizado por receber quatro parâmetros, convencionalmente chamados de: `erro`, `req`, `res` e `next`. Foi nele que centralizamos o tratamento da maioria dos erros que poderiam acontecer na aplicação, possibilitando a reutilização de código. E, de acordo com o `erro` recebido, ele pode encerrar o fluxo de requisição ao enviar uma resposta de erro padronizada para o cliente, utilizando o objeto `res`.
+
+- Identificar e tratar erros de validação:
+
+  - É possível identificar um erro de validação do Mongoose ao verificar se o erro é uma instância de `mongoose.Error.ValidationError`. Também aprendemos como personalizar as mensagens de validação nos Schemas do Mongoose e como obtê-las no objeto de erro.
+
+- Refatorar o manipulador de erros utilizando classes:
+
+  - Nos aproveitamos dos conceitos da orientação a objetos para criar classes para cada erro, reduzindo o código e tornando-o mais legível.
+
+- Criar um middleware para tratar páginas 404:
+
+  - Esse middleware deve ser registrado após todas as outras rotas da aplicação. Assim, se nenhuma das rotas registradas tiver sido correspondida, o código desse middleware será executado. Em seguida, nele podemos criar um erro (no nosso caso, uma nova instância da classe `NaoEncontrado`) e enviá-lo para o manipulador de erros.
+
 ## Como executar
 1. Clonar o repositório
 
