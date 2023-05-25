@@ -41,6 +41,20 @@ O presente projeto visa complementar outro já feito anteriormente, trazendo um 
 
   - Esse middleware deve ser registrado após todas as outras rotas da aplicação. Assim, se nenhuma das rotas registradas tiver sido correspondida, o código desse middleware será executado. Em seguida, nele podemos criar um erro (no nosso caso, uma nova instância da classe `NaoEncontrado`) e enviá-lo para o manipulador de erros.
 
+### Aula 03
+
+- Aplicar validações nativas do Mongoose:
+
+  - Você conheceu validadores de números como `min` e `max`, que definem, respectivamente, os valores mínimo e máximo que o número do campo deve ter. Você também conheceu o validador de strings `enum`, que define os valores permitidos para o campo.
+
+- Criar validadores personalizados:
+
+  - Esses validadores permitem que qualquer código JavaScript seja executado para validar ou não o dado recebido, então eles são adequados para realizar verificações mais complexas, como validar um número de CPF ou de telefone.
+
+- Aplicar um validador global:
+
+  - Validadores globais também podem ser criados no Mongoose para realizar verificações de um determinado tipo de dado em todos os Schemas da aplicação. No nosso caso, impedimos que qualquer campo do tipo string de qualquer Schema aceitasse strings vazias, pois não é algo que faz sentido para o nosso banco de dados.
+
 ## Como executar
 1. Clonar o repositório
 
