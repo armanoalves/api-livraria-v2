@@ -1,5 +1,5 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-import {livros} from "../models/index.js";
+import {autores, livros} from "../models/index.js";
 
 class LivroController {
 
@@ -79,23 +79,49 @@ class LivroController {
 
   static listarLivroPorFiltro = async (req, res) => {
     try {
-      const { editora, titulo } = req.query;
- 
-      const busca = {};
+      const busca = await processaBusca(req.query);
 
-      if(editora) busca.editora = editora;
-      if(titulo) busca.titulo = { $regex: titulo, $options: "i" };
+      if(busca !== null) {
+        const livrosResultado = await livros
+          .find(busca)
+          .populate("autor");
 
-      const livrosResultado = await livros.find(busca);
-
-      if(livrosResultado !== null) {
         res.status(200).json(livrosResultado);
-      } 
+      } else {
+        res.status(200).send([]);
+      }
 
     } catch (error) {
       res.status(500).send({messagem: `${error.message} - Erro interno no serivor`});
     }
   };
+}
+
+async function processaBusca(parametros) {
+  const { editora, titulo, minPaginas, maxPaginas, nomeAutor } = parametros;
+ 
+  let busca = {};
+
+  if(editora) busca.editora = editora;
+  if(titulo) busca.titulo = { $regex: titulo, $options: "i" };
+
+  if(minPaginas || maxPaginas) busca.numeroPaginas = {}; 
+
+  if(minPaginas) busca.numeroPaginas.$gte = minPaginas;
+  if(maxPaginas) busca.numeroPaginas.$lte = maxPaginas ;
+
+  if(nomeAutor) {
+    const autor = await autores.findOne({ nome: nomeAutor });
+
+    if(autor !== null) {
+      busca.autor = autor._id;
+    } else  {
+      busca = null;
+    }
+
+  }
+
+  return busca;
 }
 
 export default LivroController;

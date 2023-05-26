@@ -55,6 +55,20 @@ O presente projeto visa complementar outro já feito anteriormente, trazendo um 
 
   - Validadores globais também podem ser criados no Mongoose para realizar verificações de um determinado tipo de dado em todos os Schemas da aplicação. No nosso caso, impedimos que qualquer campo do tipo string de qualquer Schema aceitasse strings vazias, pois não é algo que faz sentido para o nosso banco de dados.
 
+### Aula 04 
+
+- Buscar pelos títulos dos livros de forma dinâmica:
+
+  - Para isso, podemos utilizar expressões regulares (ou regex) para tornar a busca por texto dinâmica. Isso pode ser feito passando diretamente uma expressão regular do JavaScript para o objeto de busca ou podemos utilizar os operadores de busca `$regex` e `$options` do MongoDB. Ambas as formas permitem que o valor a ser buscado venha de uma variável e que a flag `i` seja aplicada para que não haja distinção entre letras maiúsculas e minúsculas na busca.
+
+- Filtrar os livros por número de páginas:
+
+  - Utilizamos os operadores de busca `$gte` (greater than or equal, que significa “maior ou igual que”) e `$lte` (less than or equal, que significa “menor ou igual que”) para definir, respectivamente, o número mínimo de páginas e o número máximo de páginas que um livro deve ter.
+
+- Buscar livros pelo nome do autor:
+
+  - Como o nome do autor não é uma informação presente na coleção de `livros`, foi necessário realizar mais uma consulta para a coleção de `autores`, pois lá é possível obter seu `id` e realizar corretamente o filtro na busca de livros.
+
 ## Como executar
 1. Clonar o repositório
 
