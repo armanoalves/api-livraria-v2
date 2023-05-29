@@ -69,6 +69,24 @@ O presente projeto visa complementar outro já feito anteriormente, trazendo um 
 
   - Como o nome do autor não é uma informação presente na coleção de `livros`, foi necessário realizar mais uma consulta para a coleção de `autores`, pois lá é possível obter seu `id` e realizar corretamente o filtro na busca de livros.
 
+### Aula 05
+
+- Paginar uma rota:
+
+  - Para isso, aplicamos o método `skip` para pular a quantidade de registros necessários para a página solicitada e o método `limit` para limitar os resultados exibidos em uma única página.
+
+- Ordenar os resultados:
+
+  - Com o método `sort` podemos ordenar os resultados de acordo com algum campo da coleção. Por exemplo, é possível ordenar o `_id` de forma decrescente para obter primeiro os registros mais recentes ou ordenar um campo de texto de forma crescente para retornar os registros em ordem alfabética.
+
+- Reutilizar a lógica de paginação em um middleware:
+
+  - Mais uma vez utilizamos os middlewares do Express para reutilizar lógica em nossa aplicação. Criamos um middleware chamado `paginar` e o registramos nas rotas `GET /livros`, `GET /livros/busca` e `GET /autores`.
+
+- Compartilhar informações entre middlewares:
+
+  - Para isso, podemos utilizar o objeto de requisição `req`. No nosso caso, guardamos as buscas do Mongoose em req.resultado para que o middleware de paginação pudesse acessá-las. Assim, ele pode aplicar os métodos `sort`, `skip` e `limit` na busca para realizar a paginação e retornar os resultados.
+
 ## Como executar
 1. Clonar o repositório
 
